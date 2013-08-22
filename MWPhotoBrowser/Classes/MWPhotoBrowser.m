@@ -69,7 +69,7 @@
 @property (nonatomic, retain) UIImage *navigationBarBackgroundImageDefault, *navigationBarBackgroundImageLandscapePhone;
 @property (nonatomic, retain) UIActionSheet *actionsSheet;
 @property (nonatomic, retain) MBProgressHUD *progressHUD;
-
+@property (nonatomic, retain) UILabel* lbNavTitle;
 // Private Methods
 
 // Layout
@@ -139,6 +139,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 @synthesize displayActionButton = _displayActionButton, actionsSheet = _actionsSheet;
 @synthesize progressHUD = _progressHUD;
 @synthesize previousViewControllerBackButton = _previousViewControllerBackButton;
+@synthesize lbNavTitle;
 
 #pragma mark - NSObject
 
@@ -240,12 +241,12 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	
     // Toolbar
     _toolbar = [[UIToolbar alloc] initWithFrame:[self frameForToolbarAtOrientation:self.interfaceOrientation]];
-    _toolbar.tintColor = nil;
-    if ([[UIToolbar class] respondsToSelector:@selector(appearance)]) {
-        [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-        [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
-    }
-    _toolbar.barStyle = UIBarStyleBlackTranslucent;
+//    _toolbar.tintColor = nil;
+//    if ([[UIToolbar class] respondsToSelector:@selector(appearance)]) {
+//        [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+//        [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
+//    }
+//    _toolbar.barStyle = UIBarStyleBlackTranslucent;
     _toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     
     // Toolbar Items
@@ -359,7 +360,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     // Status bar
     if (self.wantsFullScreenLayout && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         _previousStatusBarStyle = [[UIApplication sharedApplication] statusBarStyle];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:animated];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
     }
     
     // Navigation bar appearance
@@ -370,6 +371,28 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     
     // Update UI
 	[self hideControlsAfterDelay];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];/* initialize your button */
+    UIImage *image = [UIImage imageNamed:@"back-btn~ipad.png"];
+    [button setImage:image forState:UIControlStateNormal];
+    button.frame = CGRectMake(0, 0, (image.size.width *2), (image.size.height *2));
+    [button addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.leftBarButtonItem = barButtonItem;
+    self.navigationItem.hidesBackButton = YES;
+    
+    self.lbNavTitle = [[UILabel alloc] initWithFrame:CGRectMake(0,0,200,40)];
+    lbNavTitle.textAlignment = NSTextAlignmentCenter;
+    lbNavTitle.textColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0];
+    lbNavTitle.shadowColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
+    lbNavTitle.shadowOffset = CGSizeMake(0,1);
+    lbNavTitle.backgroundColor = [UIColor clearColor];
+    [lbNavTitle setFont:[UIFont fontWithName:@"YWFTUltramagnetic-Bold" size:20.0f]];
+    lbNavTitle.text = self.navigationItem.title;
+    lbNavTitle.adjustsFontSizeToFitWidth = YES;
+    lbNavTitle.minimumScaleFactor = 0;
+    self.navigationItem.titleView = lbNavTitle;
     
 }
 
@@ -410,8 +433,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 #pragma mark - Nav Bar Appearance
 
 - (void)setNavBarAppearance:(BOOL)animated {
-    self.navigationController.navigationBar.tintColor = nil;
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.168627F green:0.235294F blue:0.517647F alpha:1.0F];
+    self.navigationController.navigationBar.barStyle = UIStatusBarStyleDefault;
     if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
         [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
         [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsLandscapePhone];
@@ -860,9 +883,9 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     
 	// Title
 	if ([self numberOfPhotos] > 1) {
-		self.title = [NSString stringWithFormat:@"%i %@ %i", _currentPageIndex+1, NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), [self numberOfPhotos]];		
+		lbNavTitle.text = [NSString stringWithFormat:@"%i %@ %i", _currentPageIndex+1, NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), [self numberOfPhotos]];
 	} else {
-		self.title = nil;
+		lbNavTitle.text = nil;
 	}
 	
 	// Buttons
@@ -1152,6 +1175,10 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 		[alert show];
     }
 	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)backAction {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
