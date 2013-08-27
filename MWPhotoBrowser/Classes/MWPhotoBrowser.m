@@ -11,6 +11,7 @@
 #import "MWZoomingScrollView.h"
 #import "MBProgressHUD.h"
 #import "SDImageCache.h"
+#import "Flurry.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -1107,6 +1108,9 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 #pragma mark - Actions
 
 - (void)savePhoto {
+    [Flurry logEvent:@"GALLERY - SAVE WALLPAPER"];
+
+    
     id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
     if ([photo underlyingImage]) {
         [self showProgressHUDWithMessage:[NSString stringWithFormat:@"%@\u2026" , NSLocalizedString(@"Gallery_Save_Saving", @"Displayed with ellipsis as 'Saving...' when an item is in the process of being saved")]];
@@ -1127,6 +1131,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 - (void)copyPhoto {
+    [Flurry logEvent:@"GALLERY - COPY WALLPAPER"];
+
     id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
     if ([photo underlyingImage]) {
         [self showProgressHUDWithMessage:[NSString stringWithFormat:@"%@\u2026" , NSLocalizedString(@"Gallery_Copy_Copying", @"Displayed with ellipsis as 'Copying...' when an item is in the process of being copied")]];
@@ -1144,6 +1150,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 - (void)emailPhoto {
+    [Flurry logEvent:@"GALLERY - EMAIL WALLPAPER"];
+
     id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
     if ([photo underlyingImage]) {
         [self showProgressHUDWithMessage:[NSString stringWithFormat:@"%@\u2026" , NSLocalizedString(@"Gallery_Email_Preparing", @"Displayed with ellipsis as 'Preparing...' when an item is in the process of being prepared")]];
