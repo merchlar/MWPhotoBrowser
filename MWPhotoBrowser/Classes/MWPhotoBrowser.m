@@ -227,7 +227,7 @@
 - (void)viewDidLoad {
 	
 	// View
-	self.view.backgroundColor = [UIColor blackColor];
+	self.view.backgroundColor = [UIColor whiteColor];
     self.view.clipsToBounds = YES;
 	
 	// Setup paging scrolling view
@@ -238,18 +238,20 @@
 	_pagingScrollView.delegate = self;
 	_pagingScrollView.showsHorizontalScrollIndicator = NO;
 	_pagingScrollView.showsVerticalScrollIndicator = NO;
-	_pagingScrollView.backgroundColor = [UIColor blackColor];
+	_pagingScrollView.backgroundColor = [UIColor whiteColor];
     _pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
 	[self.view addSubview:_pagingScrollView];
 	
     // Toolbar
     _toolbar = [[UIToolbar alloc] initWithFrame:[self frameForToolbarAtOrientation:self.interfaceOrientation]];
-    _toolbar.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7") ? [UIColor whiteColor] : nil;
+//    _toolbar.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7") ? [UIColor whiteColor] : nil;
+    _toolbar.tintColor = [UIColor whiteColor];
+    _toolbar.barTintColor = [UIColor colorWithRed:(78.0/255.0) green:(0.0/255.0) blue:(0.0/255.0) alpha:1.0];
     if ([[UIToolbar class] respondsToSelector:@selector(appearance)]) {
         [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
         [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
     }
-    _toolbar.barStyle = UIBarStyleBlackTranslucent;
+//    _toolbar.barStyle = UIBarStyleBlackTranslucent;
     _toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     
     // Toolbar Items
@@ -472,7 +474,7 @@
     UINavigationBar *navBar = self.navigationController.navigationBar;
     navBar.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7") ? [UIColor whiteColor] : nil;
     if ([navBar respondsToSelector:@selector(setBarTintColor:)]) {
-        navBar.barTintColor = nil;
+        navBar.barTintColor = [UIColor colorWithRed:(78.0/255.0) green:(0.0/255.0) blue:(0.0/255.0) alpha:1.0];
         navBar.shadowImage = nil;
     }
     navBar.barStyle = UIBarStyleBlackTranslucent;
@@ -485,7 +487,7 @@
 - (void)storePreviousNavBarAppearance {
     _didSavePreviousStateOfNavBar = YES;
     if ([UINavigationBar instancesRespondToSelector:@selector(barTintColor)]) {
-        _previousNavBarBarTintColor = self.navigationController.navigationBar.barTintColor;
+        _previousNavBarBarTintColor = [UIColor colorWithRed:(78.0/255.0) green:(0.0/255.0) blue:(0.0/255.0) alpha:1.0];
     }
     _previousNavBarTintColor = self.navigationController.navigationBar.tintColor;
     _previousNavBarHidden = self.navigationController.navigationBarHidden;
@@ -502,7 +504,7 @@
         UINavigationBar *navBar = self.navigationController.navigationBar;
         navBar.tintColor = _previousNavBarTintColor;
         if ([UINavigationBar instancesRespondToSelector:@selector(barTintColor)]) {
-            navBar.barTintColor = _previousNavBarBarTintColor;
+            navBar.barTintColor = [UIColor colorWithRed:(78.0/255.0) green:(0.0/255.0) blue:(0.0/255.0) alpha:1.0];
         }
         navBar.barStyle = _previousNavBarStyle;
         if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
