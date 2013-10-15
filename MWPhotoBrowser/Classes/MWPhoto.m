@@ -160,8 +160,12 @@
                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
                                        if (error) {
                                            MWLog(@"SDWebImage failed to download image: %@", error);
+                                           self.underlyingImage = [UIImage imageNamed:@"no-connection.png"];
+
                                        }
-                                       self.underlyingImage = image;
+                                       else {
+                                           self.underlyingImage = image;
+                                       }
                                        [self decompressImageAndFinishLoading];
                                    }];
                 } @catch (NSException *e) {
