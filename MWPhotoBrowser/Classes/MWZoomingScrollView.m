@@ -59,6 +59,8 @@
 		// Loading indicator
 		_loadingIndicator = [[DACircularProgressView alloc] initWithFrame:CGRectMake(140.0f, 30.0f, 40.0f, 40.0f)];
         _loadingIndicator.userInteractionEnabled = NO;
+        _loadingIndicator.trackTintColor = [UIColor whiteColor];
+        _loadingIndicator.progressTintColor = [UIColor colorWithRed:(149.0/255.0) green:(49.0/255.0) blue:(26.0/255.0) alpha:1.0];
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7")) {
             _loadingIndicator.thicknessRatio = 0.1;
             _loadingIndicator.roundedCorners = NO;
