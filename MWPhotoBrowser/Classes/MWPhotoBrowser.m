@@ -293,12 +293,12 @@
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"OK", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)];
         // Set appearance
         if ([UIBarButtonItem respondsToSelector:@selector(appearance)]) {
-            [doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-            [doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-            [doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-            [doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
-            [doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
-            [doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
+//            [doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+//            [doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+//            [doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+//            [doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
+//            [doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
+//            [doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
         }
         self.navigationItem.rightBarButtonItem = doneButton;
     } else {
@@ -978,7 +978,7 @@
     
 	// Title
 	if ([self numberOfPhotos] > 1) {
-		self.title = [NSString stringWithFormat:@"%i %@ %i", _currentPageIndex+1, NSLocalizedString(@"à", @"Used in the context: 'Showing 1 of 3 items'"), [self numberOfPhotos]];
+		self.title = [NSString stringWithFormat:@"%i  %@ %i", _currentPageIndex+1, NSLocalizedString(@"Ë", @"Used in the context: 'Showing 1 of 3 items'"), [self numberOfPhotos]];
 	} else {
 		self.title = nil;
 	}
