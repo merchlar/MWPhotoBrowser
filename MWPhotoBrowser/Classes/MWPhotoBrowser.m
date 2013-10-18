@@ -1250,12 +1250,13 @@
                 } else {
                     
                     // Show activity view controller
-                    NSMutableArray *items = [NSMutableArray arrayWithObject:[photo underlyingImage]];
-                    if (photo.caption) {
-                        [items addObject:photo.caption];
-                    }
+//                    NSMutableArray *items = [NSMutableArray arrayWithObject:[photo underlyingImage]];
+                    NSArray * items = @[[NSString stringWithFormat:@"Nouveaux fonds d’écran sur l’application Hunger Games : L’embrasement! Au cinéma dès le 22 novembre! #HungerGames #lembrasement"], [photo underlyingImage]];
+//                    if (photo.caption) {
+//                        [items addObject:photo.caption];
+//                    }
                     self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
-                    
+                    [self.activityViewController setValue:@"Des fonds d’écran du film Hunger Games : L’embrasement!" forKey:@"subject"];
                     // Show loading spinner after a couple of seconds
                     double delayInSeconds = 2.0;
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
