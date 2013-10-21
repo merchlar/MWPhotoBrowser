@@ -11,6 +11,7 @@
 #import "MWZoomingScrollView.h"
 #import "MBProgressHUD.h"
 #import "SDImageCache.h"
+#import "Flurry.h"
 
 #define PADDING                 10
 #define PAGE_INDEX_TAG_OFFSET   1000
@@ -1272,6 +1273,50 @@
                         weakSelf.activityViewController = nil;
                         [weakSelf hideControlsAfterDelay];
                         [weakSelf hideProgressHUD:YES];
+                        
+                        if (completed) {
+                            
+                            if ([activityType isEqualToString:UIActivityTypePostToFacebook]) {
+                                [Flurry logEvent:@"PHOTOBROWSER_SHARE_FACEBOOK"];
+                                
+                            }
+                            else if ([activityType isEqualToString:UIActivityTypePostToTwitter]){
+                                [Flurry logEvent:@"PHOTOBROWSER_SHARE_TWITTER"];
+                                
+                                
+                            }
+                            else if ([activityType isEqualToString:UIActivityTypeMessage]){
+                                [Flurry logEvent:@"PHOTOBROWSER_SHARE_MESSAGE"];
+                                
+                            }
+                            else if ([activityType isEqualToString:UIActivityTypeMail]){
+                                [Flurry logEvent:@"PHOTOBROWSER_SHARE_MAIL"];
+                                
+                            }
+                            else if ([activityType isEqualToString:UIActivityTypeAddToReadingList]){
+                                [Flurry logEvent:@"PHOTOBROWSER_SHARE_READING_LIST"];
+                                
+                                
+                            }
+                            else if ([activityType isEqualToString:UIActivityTypeCopyToPasteboard]){
+                                [Flurry logEvent:@"PHOTOBROWSER_SHARE_COPY"];
+                                
+                                
+                            }
+                            else if ([activityType isEqualToString:UIActivityTypeAirDrop]){
+                                [Flurry logEvent:@"PHOTOBROWSER_SHARE_AIRDROP"];
+                                
+                            }
+                            else if([activityType isEqualToString:UIActivityTypeSaveToCameraRoll]) {
+                                [Flurry logEvent:@"PHOTOBROWSER_SHARE_SAVE_CAMERA_ROLL"];
+                                
+                            }
+                            else if([activityType isEqualToString:UIActivityTypePrint]) {
+                                [Flurry logEvent:@"PHOTOBROWSER_SHARE_PRINT"];
+                                
+                            }
+                            
+                        }
                     }];
                     [self presentViewController:self.activityViewController animated:YES completion:nil];
                     
