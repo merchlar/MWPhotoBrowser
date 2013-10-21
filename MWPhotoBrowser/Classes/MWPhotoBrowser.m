@@ -12,6 +12,7 @@
 #import "MBProgressHUD.h"
 #import "SDImageCache.h"
 #import "Flurry.h"
+#import "MWActivityProvider.h"
 
 #define PADDING                 10
 #define PAGE_INDEX_TAG_OFFSET   1000
@@ -1252,12 +1253,14 @@
                     
                     // Show activity view controller
 //                    NSMutableArray *items = [NSMutableArray arrayWithObject:[photo underlyingImage]];
-                    NSArray * items = @[[NSString stringWithFormat:NSLocalizedStringFromTable(@"WALLPAPERS_MESSAGE_SHARING", @"LocalizedStrings", nil)], [photo underlyingImage]];
+                    MWActivityProvider * activity = [[MWActivityProvider alloc] init];
+                    
+                    NSArray * items = @[activity, [photo underlyingImage]];
 //                    if (photo.caption) {
 //                        [items addObject:photo.caption];
 //                    }
                     self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
-                    [self.activityViewController setValue:NSLocalizedStringFromTable(@"WALLPAPERS_MAIL_TITLE_SHARING", @"LocalizedStrings", nil) forKey:@"subject"];
+                    [self.activityViewController setValue:NSLocalizedString(@"MAIL_TITLE_SHARING", nil) forKey:@"subject"];
                     // Show loading spinner after a couple of seconds
                     double delayInSeconds = 2.0;
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
