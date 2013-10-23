@@ -247,8 +247,14 @@
     // Toolbar
     _toolbar = [[UIToolbar alloc] initWithFrame:[self frameForToolbarAtOrientation:self.interfaceOrientation]];
 //    _toolbar.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7") ? [UIColor whiteColor] : nil;
-    _toolbar.tintColor = [UIColor whiteColor];
-    _toolbar.barTintColor = [UIColor colorWithRed:(78.0/255.0) green:(0.0/255.0) blue:(0.0/255.0) alpha:1.0];
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+        _toolbar.barTintColor = [UIColor colorWithRed:(78.0/255.0) green:(0.0/255.0) blue:(0.0/255.0) alpha:1.0];
+        _toolbar.tintColor = [UIColor whiteColor];
+
+    }
+    else {
+        _toolbar.tintColor = [UIColor colorWithRed:(149.0/255.0) green:(102.0/255.0) blue:(102.0/255.0) alpha:1.0];
+    }
     if ([[UIToolbar class] respondsToSelector:@selector(appearance)]) {
         [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
         [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
@@ -479,6 +485,9 @@
         navBar.barTintColor = [UIColor colorWithRed:(78.0/255.0) green:(0.0/255.0) blue:(0.0/255.0) alpha:1.0];
         navBar.shadowImage = nil;
     }
+    else {
+        navBar.tintColor = [UIColor colorWithRed:(149.0/255.0) green:(102.0/255.0) blue:(102.0/255.0) alpha:1.0];
+    }
     navBar.barStyle = UIBarStyleBlackTranslucent;
     if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
         [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
@@ -490,6 +499,9 @@
     _didSavePreviousStateOfNavBar = YES;
     if ([UINavigationBar instancesRespondToSelector:@selector(barTintColor)]) {
         _previousNavBarBarTintColor = [UIColor colorWithRed:(78.0/255.0) green:(0.0/255.0) blue:(0.0/255.0) alpha:1.0];
+    }
+    else {
+        _previousNavBarBarTintColor = [UIColor colorWithRed:(149.0/255.0) green:(102.0/255.0) blue:(102.0/255.0) alpha:1.0];
     }
     _previousNavBarTintColor = self.navigationController.navigationBar.tintColor;
     _previousNavBarHidden = self.navigationController.navigationBarHidden;
@@ -507,6 +519,9 @@
         navBar.tintColor = _previousNavBarTintColor;
         if ([UINavigationBar instancesRespondToSelector:@selector(barTintColor)]) {
             navBar.barTintColor = [UIColor colorWithRed:(78.0/255.0) green:(0.0/255.0) blue:(0.0/255.0) alpha:1.0];
+        }
+        else {
+            navBar.tintColor = [UIColor colorWithRed:(149.0/255.0) green:(102.0/255.0) blue:(102.0/255.0) alpha:1.0];;
         }
         navBar.barStyle = _previousNavBarStyle;
         if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
