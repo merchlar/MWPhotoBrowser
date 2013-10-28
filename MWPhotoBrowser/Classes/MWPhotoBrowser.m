@@ -1168,6 +1168,29 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             emailer.modalPresentationStyle = UIModalPresentationPageSheet;
         }
+        
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+            [emailer.navigationBar setTintColor:[UIColor whiteColor]];
+        }
+        else {
+            [emailer.navigationBar setTintColor:[UIColor blueColor]];
+            
+            UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 170.0f, 44.0f)];
+            titleView.backgroundColor = [UIColor clearColor];
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:titleView.bounds];
+            label.textColor = [UIColor whiteColor];
+            label.backgroundColor = [UIColor clearColor];
+            label.text = @"Little Burgundy - Wallpaper";
+            label.font = [UIFont fontWithName:@"YWFTUltramagnetic-Bold" size:20.0f];
+            label.textAlignment = NSTextAlignmentCenter;
+            
+            [titleView addSubview:label];
+            
+            emailer.navigationItem.titleView = titleView;
+            
+        }
+        
         [self presentModalViewController:emailer animated:YES];
         [emailer release];
         [self hideProgressHUD:NO];
