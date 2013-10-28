@@ -8,10 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "MWPhotoBrowser.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface Menu : UITableViewController <MWPhotoBrowserDelegate> {
-    NSArray *_photos;
     UISegmentedControl *_segmentedControl;
+
 }
-@property (nonatomic, retain) NSArray *photos;
+
+@property (nonatomic, strong) NSMutableArray *photos;
+
+@property (atomic, strong) ALAssetsLibrary *assetLibrary;
+@property (atomic, strong) NSMutableArray *assets;
+
+- (void)loadAssets;
+
 @end
