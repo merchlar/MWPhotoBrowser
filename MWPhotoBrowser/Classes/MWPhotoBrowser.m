@@ -380,7 +380,7 @@
     [super viewDidUnload];
 }
 
-- (BOOL)presentingViewControllerPrefersStatusBarHidden {
+//- (BOOL)presentingViewControllerPrefersStatusBarHidden {
 //    UIViewController *presenting = self.presentingViewController;
 //    if (presenting) {
 //        if ([presenting isKindOfClass:[UINavigationController class]]) {
@@ -397,7 +397,7 @@
 //    } else {
 //        return NO;
 //    }
-}
+//}
 
 #pragma mark - Appearance
 
@@ -421,7 +421,7 @@
 //    if (!_viewIsActive && [self.navigationController.viewControllers objectAtIndex:0] != self) {
 //        [self storePreviousNavBarAppearance];
 //    }
-//    [self setNavBarAppearance:animated];
+   [self setNavBarAppearance:animated];
     
     // Hide navigation controller's toolbar
     _previousNavToolbarHidden = self.navigationController.toolbarHidden;
@@ -476,13 +476,13 @@
     UINavigationBar *navBar = self.navigationController.navigationBar;
     navBar.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7") ? [UIColor whiteColor] : nil;
     if ([navBar respondsToSelector:@selector(setBarTintColor:)]) {
-        navBar.barTintColor = nil;
-        navBar.shadowImage = nil;
+//        navBar.barTintColor = nil;
+//        navBar.shadowImage = nil;
     }
-    navBar.barStyle = UIBarStyleBlackTranslucent;
+//    navBar.barStyle = UIBarStyleBlackTranslucent;
     if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
-        [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-        [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsLandscapePhone];
+//        [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+//        [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsLandscapePhone];
     }
 }
 
