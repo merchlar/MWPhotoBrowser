@@ -291,7 +291,7 @@
         // We're first on stack so show done button
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)];
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7) {
-            doneButton.tintColor = [UIColor blueColor];
+            doneButton.tintColor = [UIColor colorWithRed:0.168627F green:0.235294F blue:0.517647F alpha:1.0F];
         }
         // Set appearance
 //        if ([UIBarButtonItem respondsToSelector:@selector(appearance)]) {
