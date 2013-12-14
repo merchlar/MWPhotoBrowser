@@ -1284,6 +1284,7 @@
                     // Show
 
                     typeof(self) __weak weakSelf = self;
+
                     [self.activityViewController setCompletionHandler:^(NSString *activityType, BOOL completed) {
                         weakSelf.activityViewController = nil;
                         [weakSelf hideControlsAfterDelay];
