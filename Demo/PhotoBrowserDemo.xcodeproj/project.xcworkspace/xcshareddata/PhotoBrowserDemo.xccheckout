@@ -5,16 +5,16 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>9B42911F-3F4C-415E-A6B0-EC49975F1E74</string>
+	<string>2568B4D1-4412-466D-B19F-F47F0B057C0B</string>
 	<key>IDESourceControlProjectName</key>
-	<string>MWPhotoBrowser</string>
+	<string>PhotoBrowserDemo</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>EABA54FC-4E97-4016-A728-DA3BE53D3024</key>
 		<string>https://github.com/merchlar/MWPhotoBrowser</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>MWPhotoBrowser/MWPhotoBrowser.xcodeproj/project.xcworkspace</string>
+	<string>Demo/PhotoBrowserDemo.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>EABA54FC-4E97-4016-A728-DA3BE53D3024</key>
