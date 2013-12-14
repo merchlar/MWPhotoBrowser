@@ -12,6 +12,7 @@
 #import "MWZoomingScrollView.h"
 #import "MBProgressHUD.h"
 #import "SDImageCache.h"
+#import "WatiBARActivityProvider.h"
 
 #define PADDING                 10
 #define PAGE_INDEX_TAG_OFFSET   1000
@@ -228,7 +229,7 @@
 - (void)viewDidLoad {
 	
 	// View
-	self.view.backgroundColor = [UIColor blackColor];
+	self.view.backgroundColor = [UIColor whiteColor];
     self.view.clipsToBounds = YES;
 	
 	// Setup paging scrolling view
@@ -239,7 +240,7 @@
 	_pagingScrollView.delegate = self;
 	_pagingScrollView.showsHorizontalScrollIndicator = NO;
 	_pagingScrollView.showsVerticalScrollIndicator = NO;
-	_pagingScrollView.backgroundColor = [UIColor blackColor];
+	_pagingScrollView.backgroundColor = [UIColor whiteColor];
     _pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
 	[self.view addSubview:_pagingScrollView];
 	
@@ -1254,11 +1255,23 @@
                     
                     // Show activity view controller
                     NSMutableArray *items = [NSMutableArray arrayWithObject:[photo underlyingImage]];
-                    if (photo.caption) {
-                        [items addObject:photo.caption];
-                    }
+//                    if (photo.caption) {
+//                        [items addObject:photo.caption];
+//                    }
+                    
+                    WatiBARActivityProvider * activity = [[WatiBARActivityProvider alloc] init];
+
+                    activity.facebookText = [[(MWPhoto *)photo object] objectForKey:@"share_fb"];
+                    activity.twitterText = [[(MWPhoto *)photo object] objectForKey:@"share_twitter"];
+                    activity.messageText = [[(MWPhoto *)photo object] objectForKey:@"share_sms"];
+                    activity.mailText = [[(MWPhoto *)photo object] objectForKey:@"share_mail_body"];
+                    
+                    [items addObject:activity];
+                    
                     self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
                     
+                    [self.activityViewController setValue:[[(MWPhoto *)photo object] objectForKey:@"share_mail_subject"] forKey:@"subject"];
+
                     // Show loading spinner after a couple of seconds
                     double delayInSeconds = 2.0;
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));

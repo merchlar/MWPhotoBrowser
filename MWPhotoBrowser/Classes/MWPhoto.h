@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MWPhotoProtocol.h"
-
+#import <Parse/Parse.h>
 // This class models a photo/image and it's caption
 // If you want to handle photos, caching, decompression
 // yourself then you can simply ensure your custom data model
@@ -16,6 +16,7 @@
 @interface MWPhoto : NSObject <MWPhoto>
 
 // Properties
+@property (nonatomic, strong) PFObject *object;
 @property (nonatomic, strong) NSString *caption;
 @property (nonatomic, readonly) UIImage *image;
 @property (nonatomic, readonly) NSURL *photoURL;
