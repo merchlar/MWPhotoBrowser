@@ -300,7 +300,7 @@
             [doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
             [doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
         }
-        self.navigationItem.rightBarButtonItem = doneButton;
+        self.navigationItem.leftBarButtonItem = doneButton;
     } else {
         // We're not first so show back button
         UIViewController *previousViewController = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
@@ -320,17 +320,18 @@
     }
     
     // Show action button on nav if we can
-    BOOL actionButtonOnNavBar = !self.navigationItem.rightBarButtonItem;
-    if (_actionButton && actionButtonOnNavBar) {
-        self.navigationItem.rightBarButtonItem = _actionButton;
-    }
+//    BOOL actionButtonOnNavBar = !self.navigationItem.rightBarButtonItem;
+//    if (_actionButton && actionButtonOnNavBar) {
+//        self.navigationItem.rightBarButtonItem = _actionButton;
+//    }
 
     // Toolbar items
     UIBarButtonItem *fixedLeftSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
     fixedLeftSpace.width = 32; // To balance action button
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     NSMutableArray *items = [[NSMutableArray alloc] init];
-    if (_actionButton && !actionButtonOnNavBar) [items addObject:fixedLeftSpace];
+//    if (_actionButton && !actionButtonOnNavBar)
+    [items addObject:fixedLeftSpace];
     [items addObject:flexSpace];
     if (_previousButton || _nextButton) {
         if (_previousButton && numberOfPhotos > 1) [items addObject:_previousButton];
@@ -338,7 +339,8 @@
         if (_nextButton && numberOfPhotos > 1) [items addObject:_nextButton];
     }
     [items addObject:flexSpace];
-    if (_actionButton && !actionButtonOnNavBar) [items addObject:_actionButton];
+//    if (_actionButton && !actionButtonOnNavBar)
+    [items addObject:_actionButton];
     [_toolbar setItems:items];
 
     // Toolbar visibility
