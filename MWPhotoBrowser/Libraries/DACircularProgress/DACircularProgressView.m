@@ -98,8 +98,8 @@
         return;
     
     id appearance = [self appearance];
-    [appearance setTrackTintColor:[[UIColor whiteColor] colorWithAlphaComponent:0.3f]];
-    [appearance setProgressTintColor:[UIColor whiteColor]];
+    [appearance setTrackTintColor:[[UIColor colorWithRed:0.223529F green:0.223529F blue:0.223529F alpha:1.0F] colorWithAlphaComponent:0.3f]];
+    [appearance setProgressTintColor:[UIColor colorWithRed:0.223529F green:0.223529F blue:0.223529F alpha:1.0F]];
     [appearance setBackgroundColor:[UIColor clearColor]];
     [appearance setThicknessRatio:0.3f];
     [appearance setRoundedCorners:NO];
