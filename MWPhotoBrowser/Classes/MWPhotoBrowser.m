@@ -251,7 +251,8 @@
         [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
         [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
     }
-    _toolbar.barStyle = UIBarStyleBlackTranslucent;
+//    _toolbar.barStyle = UIBarStyleBlackTranslucent;
+    _toolbar.barTintColor = [UIColor colorWithRed:0.223529F green:0.223529F blue:0.223529F alpha:1.0F];
     _toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     
     // Toolbar Items
