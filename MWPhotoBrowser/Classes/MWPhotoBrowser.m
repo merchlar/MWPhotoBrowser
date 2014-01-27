@@ -11,6 +11,7 @@
 #import "MWPhotoBrowser.h"
 #import "MWPhotoBrowserPrivate.h"
 #import "SDImageCache.h"
+#import "RGARActivityProvider.h"
 
 #define PADDING                  10
 #define ACTION_SHEET_OLD_ACTIONS 2000
@@ -157,15 +158,18 @@
 	
     // Toolbar
     _toolbar = [[UIToolbar alloc] initWithFrame:[self frameForToolbarAtOrientation:self.interfaceOrientation]];
-    _toolbar.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7") ? [UIColor whiteColor] : nil;
-    if ([_toolbar respondsToSelector:@selector(setBarTintColor:)]) {
-        _toolbar.barTintColor = nil;
-    }
+//    _toolbar.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7") ? [UIColor whiteColor] : nil;
+//    if ([_toolbar respondsToSelector:@selector(setBarTintColor:)]) {
+//        _toolbar.barTintColor = nil;
+//    }
+    _toolbar.tintColor = [UIColor redColor];
+    _toolbar.barTintColor = [UIColor blackColor];
     if ([[UIToolbar class] respondsToSelector:@selector(appearance)]) {
         [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
         [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
     }
-    _toolbar.barStyle = UIBarStyleBlackTranslucent;
+    _toolbar.barStyle = UIBarStyleBlackOpaque;
+    _toolbar.translucent = NO;
     _toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     
     // Toolbar Items
@@ -214,7 +218,7 @@
             [_doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
             [_doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
         }
-        self.navigationItem.rightBarButtonItem = _doneButton;
+        self.navigationItem.leftBarButtonItem = _doneButton;
     } else {
         // We're not first so show back button
         UIViewController *previousViewController = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
@@ -263,14 +267,14 @@
     }
 
     // Right - Action
-    if (_actionButton && !(!hasItems && !self.navigationItem.rightBarButtonItem)) {
-        [items addObject:_actionButton];
-    } else {
+//    if (_actionButton && !(!hasItems && !self.navigationItem.rightBarButtonItem)) {
+//        [items addObject:_actionButton];
+//    } else {
         // We're not showing the toolbar so try and show in top right
         if (_actionButton)
             self.navigationItem.rightBarButtonItem = _actionButton;
         [items addObject:fixedSpace];
-    }
+//    }
 
     // Toolbar visibility
     [_toolbar setItems:items];
@@ -416,17 +420,20 @@
 - (void)setNavBarAppearance:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     UINavigationBar *navBar = self.navigationController.navigationBar;
-    navBar.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7") ? [UIColor whiteColor] : nil;
-    if ([navBar respondsToSelector:@selector(setBarTintColor:)]) {
-        navBar.barTintColor = nil;
-        navBar.shadowImage = nil;
-    }
-    navBar.translucent = YES;
-    navBar.barStyle = UIBarStyleBlackTranslucent;
-    if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
-        [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-        [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsLandscapePhone];
-    }
+//    navBar.barTintColor = [UIColor blackColor];
+    navBar.barStyle = UIBarStyleBlackOpaque;
+
+//    navBar.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7") ? [UIColor whiteColor] : nil;
+//    if ([navBar respondsToSelector:@selector(setBarTintColor:)]) {
+//        navBar.barTintColor = nil;
+//        navBar.shadowImage = nil;
+//    }
+    navBar.translucent = NO;
+//    navBar.barStyle = UIBarStyleBlackTranslucent;
+//    if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
+//        [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+//        [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsLandscapePhone];
+//    }
 }
 
 - (void)storePreviousNavBarAppearance {
@@ -1424,10 +1431,23 @@
                     
                     // Show activity view controller
                     NSMutableArray *items = [NSMutableArray arrayWithObject:[photo underlyingImage]];
-                    if (photo.caption) {
-                        [items addObject:photo.caption];
-                    }
+//                    if (photo.caption) {
+//                        [items addObject:photo.caption];
+//                    }
+                    
+                    RGARActivityProvider * activity = [[RGARActivityProvider alloc] init];
+                    
+                    activity.facebookText = [[(MWPhoto *)photo parseObject] objectForKey:@"share_fb"];
+                    activity.twitterText = [[(MWPhoto *)photo parseObject] objectForKey:@"share_twitter"];
+                    activity.messageText = [[(MWPhoto *)photo parseObject] objectForKey:@"share_sms"];
+                    activity.mailText = [[(MWPhoto *)photo parseObject] objectForKey:@"share_mail_body"];
+                    
+                    [items addObject:activity];
+                    
                     self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
+                    
+                    [self.activityViewController setValue:[[(MWPhoto *)photo parseObject] objectForKey:@"share_mail_subject"] forKey:@"subject"];
+
                     
                     // Show loading spinner after a couple of seconds
                     double delayInSeconds = 2.0;
