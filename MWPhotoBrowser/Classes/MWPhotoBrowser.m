@@ -12,6 +12,8 @@
 #import "MWPhotoBrowserPrivate.h"
 #import "SDImageCache.h"
 #import "RGARActivityProvider.h"
+#import "AppDelegate.h"
+
 
 #define PADDING                  10
 #define ACTION_SHEET_OLD_ACTIONS 2000
@@ -1462,10 +1464,17 @@
                     __typeof__(self) __weak weakSelf = self;
 
                     [self.activityViewController setCompletionHandler:^(NSString *activityType, BOOL completed) {
+                        
+                        [(AppDelegate *)[[UIApplication sharedApplication] delegate] styleBar];
+
+                        
                         weakSelf.activityViewController = nil;
                         [weakSelf hideControlsAfterDelay];
                         [weakSelf hideProgressHUD:YES];
                     }];
+                    
+                    [(AppDelegate *)[[UIApplication sharedApplication] delegate] unStyleBar];
+                    
                     [self presentViewController:self.activityViewController animated:YES completion:nil];
                     
                 }
