@@ -13,7 +13,7 @@
 #import "SDImageCache.h"
 #import "RGARActivityProvider.h"
 #import "AppDelegate.h"
-
+#import "Flurry.h"
 
 #define PADDING                  10
 #define ACTION_SHEET_OLD_ACTIONS 2000
@@ -1471,6 +1471,52 @@
                         weakSelf.activityViewController = nil;
                         [weakSelf hideControlsAfterDelay];
                         [weakSelf hideProgressHUD:YES];
+                        
+                        //TODO: UNCOMMENT FLURRY
+                        
+                        if ([activityType isEqualToString:UIActivityTypePostToFacebook]) {
+                            [Flurry logEvent:@"AR_TARGET_IMAGES_SHARE_FACEBOOK" withParameters:[NSDictionary dictionaryWithObject:[[(MWPhoto *)photo parseObject] objectForKey:@"name"] forKey:@"name"]];
+                            
+                        }
+                        else if ([activityType isEqualToString:UIActivityTypePostToTwitter]){
+                            [Flurry logEvent:@"AR_TARGET_IMAGES_SHARE_TWITTER" withParameters:[NSDictionary dictionaryWithObject:[[(MWPhoto *)photo parseObject] objectForKey:@"name"] forKey:@"name"]];
+                            
+                            
+                        }
+                        else if ([activityType isEqualToString:UIActivityTypeMessage]){
+                            [Flurry logEvent:@"AR_TARGET_IMAGES_SHARE_MESSAGE" withParameters:[NSDictionary dictionaryWithObject:[[(MWPhoto *)photo parseObject] objectForKey:@"name"] forKey:@"name"]];
+                            
+                        }
+                        else if ([activityType isEqualToString:UIActivityTypeMail]){
+                            [Flurry logEvent:@"AR_TARGET_IMAGES_SHARE_MAIL" withParameters:[NSDictionary dictionaryWithObject:[[(MWPhoto *)photo parseObject] objectForKey:@"name"] forKey:@"name"]];
+                            
+                        }
+                        else if ([activityType isEqualToString:UIActivityTypeCopyToPasteboard]){
+                            [Flurry logEvent:@"AR_TARGET_IMAGES_SHARE_COPY" withParameters:[NSDictionary dictionaryWithObject:[[(MWPhoto *)photo parseObject] objectForKey:@"name"] forKey:@"name"]];
+                            
+                            
+                        }
+                        else if([activityType isEqualToString:UIActivityTypeSaveToCameraRoll]) {
+                            [Flurry logEvent:@"AR_TARGET_IMAGES_SHARE_SAVE_CAMERA_ROLL" withParameters:[NSDictionary dictionaryWithObject:[[(MWPhoto *)photo parseObject] objectForKey:@"name"] forKey:@"name"]];
+                            
+                        }
+                        else if([activityType isEqualToString:UIActivityTypePrint]) {
+                            [Flurry logEvent:@"AR_TARGET_IMAGES_SHARE_PRINT" withParameters:[NSDictionary dictionaryWithObject:[[(MWPhoto *)photo parseObject] objectForKey:@"name"] forKey:@"name"]];
+                            
+                        }
+                        else if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+                            
+                            if ([activityType isEqualToString:UIActivityTypeAddToReadingList]){
+                                [Flurry logEvent:@"AR_TARGET_IMAGES_SHARE_READING_LIST" withParameters:[NSDictionary dictionaryWithObject:[[(MWPhoto *)photo parseObject] objectForKey:@"name"] forKey:@"name"]];
+                                
+                                
+                            }
+                            else if ([activityType isEqualToString:UIActivityTypeAirDrop]){
+                                [Flurry logEvent:@"AR_TARGET_IMAGES_SHARE_AIRDROP" withParameters:[NSDictionary dictionaryWithObject:[[(MWPhoto *)photo parseObject] objectForKey:@"name"] forKey:@"name"]];
+                                
+                            }
+                        }
+
                     }];
                     
                     [(AppDelegate *)[[UIApplication sharedApplication] delegate] unStyleBar];
