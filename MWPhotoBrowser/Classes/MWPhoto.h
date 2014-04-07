@@ -28,5 +28,7 @@
 - (id)initWithURL:(NSURL *)url;
 - (id)initWithFilePath:(NSString *)path  __attribute__((deprecated("Use initWithURL: with a file URL"))); // Depreciated
 
+@property (nonatomic,copy) NSString *analyticsTag;
+
 @end
 

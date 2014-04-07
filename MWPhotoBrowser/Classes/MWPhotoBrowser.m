@@ -1486,7 +1486,13 @@
                     if (photo.caption) {
                         [items addObject:photo.caption];
                     }
+                    if (self.shareText != nil){
+                        [items addObject:self.shareText];
+                    }
                     self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
+                    if (self.shareEmailSubject != nil){
+                        [self.activityViewController setValue:self.shareEmailSubject forKey:@"subject"];
+                    }
                     
                     // Show loading spinner after a couple of seconds
                     double delayInSeconds = 2.0;
@@ -1504,6 +1510,7 @@
                         weakSelf.activityViewController = nil;
                         [weakSelf hideControlsAfterDelay];
                         [weakSelf hideProgressHUD:YES];
+                        [weakSelf.delegate didSharePhotoWithAnalyticsTag:[photo analyticsTag] activityType:activityType completed:completed];
                     }];
                     [self presentViewController:self.activityViewController animated:YES completion:nil];
                     

@@ -32,6 +32,9 @@
 // methods returns nil.
 @property (nonatomic, strong) UIImage *underlyingImage;
 
+//Analytics tag
+@property (nonatomic, copy) NSString *analyticsTag;
+
 // Called when the browser has determined the underlying images is not
 // already loaded into memory but needs it.
 - (void)loadUnderlyingImageAndNotify;

@@ -26,6 +26,9 @@
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser;
 - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index;
 
+//Share
+- (void)didSharePhotoWithAnalyticsTag:(NSString*)analyticsTag activityType:(NSString*)activityType completed:(BOOL)completed;
+
 @optional
 
 - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index;
@@ -67,5 +70,10 @@
 // Navigation
 - (void)showNextPhotoAnimated:(BOOL)animated;
 - (void)showPreviousPhotoAnimated:(BOOL)animated;
+
+//Share
+@property (nonatomic,copy) NSString *shareText;
+@property (nonatomic,copy) NSString *shareEmailSubject;
+
 
 @end
