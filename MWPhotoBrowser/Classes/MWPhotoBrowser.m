@@ -995,7 +995,7 @@
     
 	// Title
 	if ([self numberOfPhotos] > 1) {
-		self.title = [NSString stringWithFormat:@"%i  %@ %i", _currentPageIndex+1, NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), [self numberOfPhotos]];
+		self.title = [NSString stringWithFormat:@"%i %@ %i", _currentPageIndex+1, @"à", [self numberOfPhotos]];
 	} else {
 		self.title = nil;
 	}
