@@ -11,9 +11,18 @@
 #import "MWPhotoBrowser.h"
 #import "MWPhotoBrowserPrivate.h"
 #import "SDImageCache.h"
+#import "CRProductTour.h"
 
 #define PADDING                  10
 #define ACTION_SHEET_OLD_ACTIONS 2000
+
+@interface MWPhotoBrowser ()
+
+@property (nonatomic) BOOL vcIsDismissed;
+@property (nonatomic, strong) CRProductTour *productTourView;
+@property (nonatomic, strong) UIButton *dismissProductButton;
+
+@end
 
 @implementation MWPhotoBrowser
 
@@ -392,9 +401,12 @@
         _viewHasAppearedInitially = YES;
     }
 
+    self.vcIsDismissed = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    
+    self.vcIsDismissed = YES;
     
     // Check that we're being popped for good
     if ([self.navigationController.viewControllers objectAtIndex:0] != self &&
@@ -430,6 +442,16 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     _viewIsActive = YES;
+    
+    [self presentTour];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    
+    [super viewDidDisappear:animated];
+    
+    [self dismissTourAnimated:NO];
+    
 }
 
 - (void)willMoveToParentViewController:(UIViewController *)parent {
@@ -441,6 +463,124 @@
 - (void)didMoveToParentViewController:(UIViewController *)parent {
     if (!parent) _hasBelongedToViewController = YES;
 }
+
+#pragma mark - Tour
+
+- (void)presentTour {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if (![defaults boolForKey:@"tour_ti1"]) {
+        NSLog(@"tour_ti1 missing");
+        [self performSelector:@selector(showTour:) withObject:@"tour_ti1" afterDelay:0.2];
+    }
+
+}
+
+- (void)dismissTour {
+    if (self.vcIsDismissed) {
+        [self dismissTourAnimated:NO];
+        
+    }
+    else {
+        [self dismissTourAnimated:YES];
+    }
+}
+
+- (void)dismissTourAnimated:(BOOL)animated {
+    
+    
+    if (animated && self.productTourView.isVisible) {
+
+        self.dismissProductButton.userInteractionEnabled = NO;
+        
+        __typeof(self) __weak weakSelf = self;
+        
+        [self.productTourView setVisible:NO completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.5
+                             animations:^{
+                                 weakSelf.dismissProductButton.alpha = 0.0;
+                             } completion:^(BOOL finished) {
+                                 [weakSelf.dismissProductButton removeFromSuperview];
+                                 weakSelf.dismissProductButton = nil;
+                             }];
+        }];
+    }
+    else {
+        [self.productTourView removeFromSuperview];
+        self.productTourView = nil;
+        [self.dismissProductButton removeFromSuperview];
+        self.dismissProductButton = nil;
+    }
+}
+
+- (void)showTour:(NSString *)key {
+    
+    if (self.vcIsDismissed) {
+        return;
+    }
+    
+    if ([key isEqualToString:@"tour_ti1"]) {
+        
+        if (!self.dismissProductButton) {
+            self.dismissProductButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            self.dismissProductButton.frame = self.view.bounds;
+            self.dismissProductButton.backgroundColor = [UIColor blackColor];
+            self.dismissProductButton.alpha = 0.0;
+            self.dismissProductButton.userInteractionEnabled = NO;
+            [self.dismissProductButton addTarget:self action:@selector(dismissTour) forControlEvents:UIControlEventTouchUpInside];
+            [self.view addSubview:self.dismissProductButton];
+            [self.view bringSubviewToFront:_toolbar];
+        }
+        
+        if (!self.productTourView) {
+            self.productTourView = [[CRProductTour alloc] initWithFrame:self.view.bounds];
+            self.productTourView.alpha = 0.0;
+            [self.view addSubview:self.productTourView];
+        }
+        else {
+            [self.view bringSubviewToFront:self.productTourView];
+        }
+        
+        __typeof(self) __weak weakSelf = self;
+        __typeof(_toolbar) __weak weakToolBar = _toolbar;
+        
+        [self.productTourView setVisible:NO completion:^(BOOL finished) {
+            NSLog(@"showTour tour_ti1 setVisible:NO");
+            
+            
+            CRBubble *bubbleButton1 = [[CRBubble alloc] initWithBar:weakToolBar buttonPosition:2 title:@"" description:@"Print or share the target image here !" arrowPosition:CRArrowPositionAllBottom andColor:[UIColor colorWithRed:0.078431F green:0.658824F blue:0.882353F alpha:1.0F] andGlow:YES];
+            bubbleButton1.glowColor = [UIColor colorWithRed:0.078431F green:0.658824F blue:0.882353F alpha:1.0F];
+            [weakSelf.productTourView setBubbles:(NSMutableArray *)[NSArray arrayWithObject:bubbleButton1]];
+            
+            
+            [UIView animateWithDuration:1.0
+                                  delay:1.0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                                 weakSelf.productTourView.alpha = 1.0;
+                                 weakSelf.dismissProductButton.alpha = 0.7;
+                             } completion:^(BOOL finished) {
+                                 
+                                 weakSelf.productTourView.activeAnimation = YES;
+
+                                 
+                                 [weakSelf.productTourView setVisible:YES completion:^(BOOL finished) {
+                                     NSLog(@"showTour tour_ti1 setVisible:YES");
+                                     
+                                     weakSelf.dismissProductButton.userInteractionEnabled = YES;
+                                     
+                                     
+                                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                                    [defaults setBool:YES forKey:@"tour_ti1"];
+                                    [defaults synchronize];
+                                     
+                                 }];
+                             }];
+        }];
+    }
+}
+
 
 #pragma mark - Nav Bar Appearance
 
@@ -1440,6 +1580,13 @@
 #pragma mark - Actions
 
 - (void)actionButtonPressed:(id)sender {
+    
+    [self dismissTour];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:YES forKey:@"tour_ti1"];
+    [defaults synchronize];
+    
     if (_actionsSheet) {
         
         // Dismiss
