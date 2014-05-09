@@ -12,6 +12,7 @@
 #import "MWPhotoBrowserPrivate.h"
 #import "SDImageCache.h"
 #import "CRProductTour.h"
+#import "Flurry.h"
 
 #define PADDING                  10
 #define ACTION_SHEET_OLD_ACTIONS 2000
@@ -1652,6 +1653,52 @@
                         weakSelf.activityViewController = nil;
                         [weakSelf hideControlsAfterDelay];
                         [weakSelf hideProgressHUD:YES];
+                        
+                        if (completed) {
+                            if ([activityType isEqualToString:UIActivityTypePostToFacebook]) {
+                                [Flurry logEvent:@"AR_TARGET_IMAGE_SHARE_FACEBOOK"];
+                                
+                            }
+                            else if ([activityType isEqualToString:UIActivityTypePostToTwitter]){
+                                [Flurry logEvent:@"AR_TARGET_IMAGE_SHARE_TWITTER"];
+                                
+                                
+                            }
+                            else if ([activityType isEqualToString:UIActivityTypeMessage]){
+                                [Flurry logEvent:@"AR_TARGET_IMAGE_SHARE_MESSAGE"];
+                                
+                            }
+                            else if ([activityType isEqualToString:UIActivityTypeMail]){
+                                [Flurry logEvent:@"AR_TARGET_IMAGE_SHARE_MAIL"];
+                                
+                            }
+                            else if ([activityType isEqualToString:UIActivityTypeCopyToPasteboard]){
+                                [Flurry logEvent:@"AR_TARGET_IMAGE_SHARE_COPY"];
+                                
+                                
+                            }
+                            else if([activityType isEqualToString:UIActivityTypeSaveToCameraRoll]) {
+                                [Flurry logEvent:@"AR_TARGET_IMAGE_SHARE_SAVE_CAMERA_ROLL"];
+                                
+                            }
+                            else if([activityType isEqualToString:UIActivityTypePrint]) {
+                                [Flurry logEvent:@"AR_TARGET_IMAGE_SHARE_PRINT"];
+                                
+                            }
+                            else if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+                                
+                                if ([activityType isEqualToString:UIActivityTypeAddToReadingList]){
+                                    [Flurry logEvent:@"AR_TARGET_IMAGE_SHARE_READING_LIST"];
+                                    
+                                    
+                                }
+                                else if ([activityType isEqualToString:UIActivityTypeAirDrop]){
+                                    [Flurry logEvent:@"AR_TARGET_IMAGE_SHARE_AIRDROP"];
+                                    
+                                }
+                            }
+                        }
+                        
                     }];
                     [self presentViewController:self.activityViewController animated:YES completion:nil];
                     
