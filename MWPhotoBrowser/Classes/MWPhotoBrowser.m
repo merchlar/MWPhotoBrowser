@@ -11,6 +11,7 @@
 #import "MWPhotoBrowser.h"
 #import "MWPhotoBrowserPrivate.h"
 #import "SDImageCache.h"
+#import "ActivityProvider.h"
 
 #define PADDING                  10
 #define ACTION_SHEET_OLD_ACTIONS 2000
@@ -1493,11 +1494,20 @@
                 } else {
                     
                     // Show activity view controller
-                    NSMutableArray *items = [NSMutableArray arrayWithObject:[photo underlyingImage]];
-                    if (photo.caption) {
-                        [items addObject:photo.caption];
-                    }
+                    NSArray *items;
+                    
+                    ActivityProvider * activity = [[ActivityProvider alloc] init];
+                    
+                    activity.facebookText = @"Mon nouveau fond d’écran! Visitez l’application du film 1987 pour en télécharger un vous aussi! Au cinéma dès le 8 août!";
+                    activity.twitterText = @"Nouveaux fonds d’écran sur l’application du film 1987! Au cinéma dès le 8 août! #1987lefilm";
+                    activity.messageText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
+                    activity.mailText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
+                    
+                    items = @[[photo underlyingImage], activity];
+                    
                     self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
+                    
+                    [self.activityViewController setValue:@"Des fonds d’écran du film 1987!" forKey:@"subject"];
                     
                     // Show loading spinner after a couple of seconds
                     double delayInSeconds = 2.0;
