@@ -1504,7 +1504,7 @@
                     activity.messageText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
                     activity.mailText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
                     
-                    items = @[[photo underlyingImage], activity];
+                    items = @[activity, [photo underlyingImage]];
                     
                     self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
                     
