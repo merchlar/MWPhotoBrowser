@@ -13,6 +13,7 @@
 #import "SDImageCache.h"
 #import "ActivityProvider.h"
 #import "AppDelegate.h"
+#import "Flurry.h"
 
 #define PADDING                  10
 #define ACTION_SHEET_OLD_ACTIONS 2000
@@ -1494,6 +1495,13 @@
                     
                 } else {
                     
+                    if ([self.type isEqualToString:@"AR"]) {
+                        [Flurry logEvent:@"AR_TARGET_SHARE_TAPPED"];
+                    }
+                    else if ([self.type isEqualToString:@"WP"]) {
+                        [Flurry logEvent:@"WP_FULL_SCREEN_SHARE_TAPPED"];
+                    }
+                    
                     // Show activity view controller
                     NSArray *items;
                     
@@ -1523,6 +1531,16 @@
                     __typeof__(self) __weak weakSelf = self;
 
                     [self.activityViewController setCompletionHandler:^(NSString *activityType, BOOL completed) {
+                        
+                        if (completed) {
+                            if ([weakSelf.type isEqualToString:@"AR"]) {
+                                [Flurry logEvent:@"AR_TARGET_SHARE_COMPLETED" withParameters:[NSDictionary dictionaryWithObject:activityType forKey:@"NETWORK"]];
+                            }
+                            else if ([weakSelf.type isEqualToString:@"WP"]) {
+                                [Flurry logEvent:@"WP_FULL_SCREEN_SHARE_COMPLETED" withParameters:[NSDictionary dictionaryWithObject:activityType forKey:@"NETWORK"]];
+                            }
+                        }
+                        
                         [(AppDelegate *)[[UIApplication sharedApplication] delegate] styleApp];
 
                         weakSelf.activityViewController = nil;
