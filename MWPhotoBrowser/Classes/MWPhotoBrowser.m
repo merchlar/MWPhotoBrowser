@@ -11,9 +11,9 @@
 #import "MWPhotoBrowser.h"
 #import "MWPhotoBrowserPrivate.h"
 #import "SDImageCache.h"
-#import "ActivityProvider.h"
-#import "AppDelegate.h"
-#import "Flurry.h"
+//#import "ActivityProvider.h"
+#import "MAppDelegate.h"
+//#import "Flurry.h"
 
 #define PADDING                  10
 #define ACTION_SHEET_OLD_ACTIONS 2000
@@ -1079,7 +1079,7 @@
         if ([_delegate respondsToSelector:@selector(photoBrowser:titleForPhotoAtIndex:)]) {
             self.title = [_delegate photoBrowser:self titleForPhotoAtIndex:_currentPageIndex];
         } else {
-            self.title = [NSString stringWithFormat:@"%lu %@ %lu", (unsigned long)(_currentPageIndex+1), @"à", (unsigned long)numberOfPhotos];
+            self.title = [NSString stringWithFormat:@"%lu %@ %lu", (unsigned long)(_currentPageIndex+1), @"of", (unsigned long)numberOfPhotos];
         }
 	} else {
 		self.title = nil;
@@ -1496,23 +1496,25 @@
                 } else {
                     
                     if ([self.type isEqualToString:@"AR"]) {
-                        [Flurry logEvent:@"AR_TARGET_SHARE_TAPPED"];
+//                        [Flurry logEvent:@"AR_TARGET_SHARE_TAPPED"];
                     }
                     else if ([self.type isEqualToString:@"WP"]) {
-                        [Flurry logEvent:@"WP_FULL_SCREEN_SHARE_TAPPED"];
+//                        [Flurry logEvent:@"WP_FULL_SCREEN_SHARE_TAPPED"];
                     }
                     
                     // Show activity view controller
                     NSArray *items;
                     
-                    ActivityProvider * activity = [[ActivityProvider alloc] init];
+                    items = @[[photo underlyingImage]];
                     
-                    activity.facebookText = @"Mon nouveau fond d’écran! Visitez l’application du film 1987 pour en télécharger un vous aussi! Au cinéma dès le 8 août!";
-                    activity.twitterText = @"Nouveaux fonds d’écran sur l’application du film 1987! Au cinéma dès le 8 août! #1987lefilm";
-                    activity.messageText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
-                    activity.mailText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
-                    
-                    items = @[activity, [photo underlyingImage]];
+//                    ActivityProvider * activity = [[ActivityProvider alloc] init];
+//                    
+//                    activity.facebookText = @"Mon nouveau fond d’écran! Visitez l’application du film 1987 pour en télécharger un vous aussi! Au cinéma dès le 8 août!";
+//                    activity.twitterText = @"Nouveaux fonds d’écran sur l’application du film 1987! Au cinéma dès le 8 août! #1987lefilm";
+//                    activity.messageText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
+//                    activity.mailText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
+//                    
+//                    items = @[activity, [photo underlyingImage]];
                     
                     self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
                     
@@ -1534,21 +1536,21 @@
                         
                         if (completed) {
                             if ([weakSelf.type isEqualToString:@"AR"]) {
-                                [Flurry logEvent:@"AR_TARGET_SHARE_COMPLETED" withParameters:[NSDictionary dictionaryWithObject:activityType forKey:@"NETWORK"]];
+//                                [Flurry logEvent:@"AR_TARGET_SHARE_COMPLETED" withParameters:[NSDictionary dictionaryWithObject:activityType forKey:@"NETWORK"]];
                             }
                             else if ([weakSelf.type isEqualToString:@"WP"]) {
-                                [Flurry logEvent:@"WP_FULL_SCREEN_SHARE_COMPLETED" withParameters:[NSDictionary dictionaryWithObject:activityType forKey:@"NETWORK"]];
+//                                [Flurry logEvent:@"WP_FULL_SCREEN_SHARE_COMPLETED" withParameters:[NSDictionary dictionaryWithObject:activityType forKey:@"NETWORK"]];
                             }
                         }
                         
-                        [(AppDelegate *)[[UIApplication sharedApplication] delegate] styleApp];
+                        [(MAppDelegate *)[[UIApplication sharedApplication] delegate] styleApp];
 
                         weakSelf.activityViewController = nil;
                         [weakSelf hideControlsAfterDelay];
                         [weakSelf hideProgressHUD:YES];
                     }];
                     
-                    [(AppDelegate *)[[UIApplication sharedApplication] delegate] unStyleApp];
+                    [(MAppDelegate *)[[UIApplication sharedApplication] delegate] unStyleApp];
 
                     
                     [self presentViewController:self.activityViewController animated:YES completion:nil];
