@@ -13,7 +13,7 @@
 #import "SDImageCache.h"
 //#import "ActivityProvider.h"
 #import "MAppDelegate.h"
-//#import "Flurry.h"
+#import "Flurry.h"
 
 #define PADDING                  10
 #define ACTION_SHEET_OLD_ACTIONS 2000
@@ -1501,7 +1501,7 @@
                     NSString * mailSubject;
                     
                     if ([self.type isEqualToString:@"AR"]) {
-//                        [Flurry logEvent:@"AR_TARGET_SHARE_TAPPED"];
+                        [Flurry logEvent:@"AR_TARGET_SHARE_TAPPED"];
                         PFObject * parseObject = [(MWPhoto *)photo parseObject];
                         
                         activity = [[ActivityProvider alloc] init];
@@ -1515,7 +1515,7 @@
                         
                     }
                     else if ([self.type isEqualToString:@"WP"]) {
-//                        [Flurry logEvent:@"WP_FULL_SCREEN_SHARE_TAPPED"];
+                        [Flurry logEvent:@"WP_FULL_SCREEN_SHARE_TAPPED"];
                         
                         activity = [[ActivityProvider alloc] init];
                         
@@ -1548,10 +1548,10 @@
                         
                         if (completed) {
                             if ([weakSelf.type isEqualToString:@"AR"]) {
-//                                [Flurry logEvent:@"AR_TARGET_SHARE_COMPLETED" withParameters:[NSDictionary dictionaryWithObject:activityType forKey:@"NETWORK"]];
+                                [Flurry logEvent:@"AR_TARGET_SHARE_COMPLETED" withParameters:[NSDictionary dictionaryWithObject:activityType forKey:@"NETWORK"]];
                             }
                             else if ([weakSelf.type isEqualToString:@"WP"]) {
-//                                [Flurry logEvent:@"WP_FULL_SCREEN_SHARE_COMPLETED" withParameters:[NSDictionary dictionaryWithObject:activityType forKey:@"NETWORK"]];
+                                [Flurry logEvent:@"WP_FULL_SCREEN_SHARE_COMPLETED" withParameters:[NSDictionary dictionaryWithObject:activityType forKey:@"NETWORK"]];
                             }
                         }
                         
