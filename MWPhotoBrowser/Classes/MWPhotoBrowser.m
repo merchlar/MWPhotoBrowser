@@ -1495,30 +1495,42 @@
                     
                 } else {
                     
+                    // Show activity view controller
+                    NSArray *items;
+                    ActivityProvider * activity;
+                    NSString * mailSubject;
+                    
                     if ([self.type isEqualToString:@"AR"]) {
 //                        [Flurry logEvent:@"AR_TARGET_SHARE_TAPPED"];
+                        PFObject * parseObject = [(MWPhoto *)photo parseObject];
+                        
+                        activity = [[ActivityProvider alloc] init];
+                        
+                        activity.facebookText = [parseObject objectForKey:@"share_fb"];
+                        activity.twitterText = [parseObject objectForKey:@"share_twitter"];;
+                        activity.messageText = [parseObject objectForKey:@"share_sms"];;
+                        activity.mailText = [parseObject objectForKey:@"share_mail_body"];;
+                        mailSubject = [parseObject objectForKey:@"share_mail_subject"];
+                        
+                        
                     }
                     else if ([self.type isEqualToString:@"WP"]) {
 //                        [Flurry logEvent:@"WP_FULL_SCREEN_SHARE_TAPPED"];
+                        
+                        activity = [[ActivityProvider alloc] init];
+                        
+                        activity.facebookText = @"Mon nouveau fond d’écran! Visitez l’application du film 1987 pour en télécharger un vous aussi! Au cinéma dès le 8 août!";
+                        activity.twitterText = @"Nouveaux fonds d’écran sur l’application du film 1987! Au cinéma dès le 8 août! #1987lefilm";
+                        activity.messageText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
+                        activity.mailText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
+                        mailSubject = @"Des fonds d’écran du film 1987!";
                     }
                     
-                    // Show activity view controller
-                    NSArray *items;
-                    
-                    items = @[[photo underlyingImage]];
-                    
-//                    ActivityProvider * activity = [[ActivityProvider alloc] init];
-//                    
-//                    activity.facebookText = @"Mon nouveau fond d’écran! Visitez l’application du film 1987 pour en télécharger un vous aussi! Au cinéma dès le 8 août!";
-//                    activity.twitterText = @"Nouveaux fonds d’écran sur l’application du film 1987! Au cinéma dès le 8 août! #1987lefilm";
-//                    activity.messageText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
-//                    activity.mailText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
-//                    
-//                    items = @[activity, [photo underlyingImage]];
+                    items = @[activity, [photo underlyingImage]];
                     
                     self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
                     
-                    [self.activityViewController setValue:@"Des fonds d’écran du film 1987!" forKey:@"subject"];
+                    [self.activityViewController setValue:mailSubject forKey:@"subject"];
                     
                     // Show loading spinner after a couple of seconds
                     double delayInSeconds = 2.0;
