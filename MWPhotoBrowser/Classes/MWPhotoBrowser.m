@@ -1519,11 +1519,11 @@
                         
                         activity = [[ActivityProvider alloc] init];
                         
-                        activity.facebookText = @"Mon nouveau fond d’écran! Visitez l’application du film 1987 pour en télécharger un vous aussi! Au cinéma dès le 8 août!";
-                        activity.twitterText = @"Nouveaux fonds d’écran sur l’application du film 1987! Au cinéma dès le 8 août! #1987lefilm";
-                        activity.messageText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
-                        activity.mailText = @"Mon nouveau fond d’écran! Visite l’application du film 1987 pour en télécharger un toi aussi! Au cinéma dès le 8 août!";
-                        mailSubject = @"Des fonds d’écran du film 1987!";
+                        activity.facebookText = @"Awesome mobile wallpapers from the Golden Gopher Fund App. DL it now!";
+                        activity.twitterText = @"Awesome mobile wallpapers from the #GoldenGopherFund App. DL it now! @UofMGGF";
+                        activity.messageText = @"Awesome mobile wallpapers from the Golden Gopher Fund App. DL it now!";
+                        activity.mailText = @"Awesome mobile wallpapers from the Golden Gopher Fund App. DL it now!";
+                        mailSubject = @"GGF - Mobile Device Wallpapers";
                     }
                     
                     items = @[activity, [photo underlyingImage]];
