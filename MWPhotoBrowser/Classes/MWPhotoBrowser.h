@@ -11,7 +11,7 @@
 #import "MWPhoto.h"
 #import "MWPhotoProtocol.h"
 #import "MWCaptionView.h"
-#import "ActivityProvider.h"
+#import "S1ActivityProvider.h"
 
 // Debug Logging
 #if 0 // Set to 1 to enable debug logging

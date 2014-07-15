@@ -11,8 +11,8 @@
 #import "MWPhotoBrowser.h"
 #import "MWPhotoBrowserPrivate.h"
 #import "SDImageCache.h"
-//#import "ActivityProvider.h"
-#import "MAppDelegate.h"
+//#import "S1ActivityProvider.h"
+#import "S1AppDelegate.h"
 #import "Flurry.h"
 
 #define PADDING                  10
@@ -1497,14 +1497,14 @@
                     
                     // Show activity view controller
                     NSArray *items;
-                    ActivityProvider * activity;
+                    S1ActivityProvider * activity;
                     NSString * mailSubject;
                     
                     if ([self.type isEqualToString:@"AR"]) {
                         [Flurry logEvent:@"AR_TARGET_SHARE_TAPPED"];
                         PFObject * parseObject = [(MWPhoto *)photo parseObject];
                         
-                        activity = [[ActivityProvider alloc] init];
+                        activity = [[S1ActivityProvider alloc] init];
                         
                         activity.facebookText = [parseObject objectForKey:@"share_fb"];
                         activity.twitterText = [parseObject objectForKey:@"share_twitter"];;
@@ -1517,7 +1517,7 @@
                     else if ([self.type isEqualToString:@"WP"]) {
                         [Flurry logEvent:@"WP_FULL_SCREEN_SHARE_TAPPED"];
                         
-                        activity = [[ActivityProvider alloc] init];
+                        activity = [[S1ActivityProvider alloc] init];
                         
                         activity.facebookText = @"Awesome mobile wallpapers from the Golden Gopher Fund App. DL it now!";
                         activity.twitterText = @"Awesome mobile wallpapers from the #GoldenGopherFund App. DL it now! @UofMGGF";
@@ -1555,14 +1555,14 @@
                             }
                         }
                         
-                        [(MAppDelegate *)[[UIApplication sharedApplication] delegate] styleApp];
+                        [(S1AppDelegate *)[[UIApplication sharedApplication] delegate] styleApp];
 
                         weakSelf.activityViewController = nil;
                         [weakSelf hideControlsAfterDelay];
                         [weakSelf hideProgressHUD:YES];
                     }];
                     
-                    [(MAppDelegate *)[[UIApplication sharedApplication] delegate] unStyleApp];
+                    [(S1AppDelegate *)[[UIApplication sharedApplication] delegate] unStyleApp];
 
                     
                     [self presentViewController:self.activityViewController animated:YES completion:nil];
