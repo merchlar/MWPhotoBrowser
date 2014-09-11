@@ -1519,11 +1519,11 @@
                         
                         activity = [[S1ActivityProvider alloc] init];
                         
-                        activity.facebookText = @"Awesome mobile wallpapers from the Golden Gopher Fund App. DL it now!";
-                        activity.twitterText = @"Awesome mobile wallpapers from the #GoldenGopherFund App. DL it now! @UofMGGF";
-                        activity.messageText = @"Awesome mobile wallpapers from the Golden Gopher Fund App. DL it now!";
-                        activity.mailText = @"Awesome mobile wallpapers from the Golden Gopher Fund App. DL it now!";
-                        mailSubject = @"GGF - Mobile Device Wallpapers";
+                        activity.facebookText = @"facebook-text";
+                        activity.twitterText = @"twitter-text";
+                        activity.messageText = @"message-text";
+                        activity.mailText = @"mail-text";
+                        mailSubject = @"mail-subject";
                     }
                     
                     items = @[activity, [photo underlyingImage]];
