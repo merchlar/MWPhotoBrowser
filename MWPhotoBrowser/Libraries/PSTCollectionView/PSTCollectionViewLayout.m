@@ -9,6 +9,8 @@
 #import "PSTCollectionViewItemKey.h"
 #import "PSTCollectionViewData.h"
 
+#import <objc/runtime.h>
+
 @interface PSTCollectionView ()
 - (id)currentUpdate;
 - (NSDictionary *)visibleViewsDict;
@@ -161,7 +163,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - PSTCollection/UICollection interoperability
 
-#import <objc/runtime.h>
+
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
     NSMethodSignature *signature = [super methodSignatureForSelector:selector];
     if (!signature) {
